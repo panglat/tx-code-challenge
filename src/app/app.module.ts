@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { NavigationComponent } from './Navigation';
 import AboutComponent from './about';
 import HomeComponent from './home';
+import BlogComponent from './blog';
 
 const routing = RouterModule.forRoot([
   {
@@ -16,6 +17,9 @@ const routing = RouterModule.forRoot([
   }, {
     path: 'home',
     component: HomeComponent
+  }, {
+    path: 'blog',
+    component: BlogComponent
   }, {
     path: '**',
     redirectTo: 'home',
@@ -33,6 +37,7 @@ const routing = RouterModule.forRoot([
     NavigationComponent,
     AboutComponent,
     HomeComponent,
+    BlogComponent
   ],
   bootstrap: [AppComponent]
 })
