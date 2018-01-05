@@ -11,7 +11,7 @@ import { AppComponent } from './app.component';
 import { NavigationComponent } from './Navigation';
 import AboutComponent from './about';
 import HomeComponent from './home';
-import { BlogsComponent } from './blog/blogs/blogs';
+import { PostsComponent } from './blog';
 
 const routing = RouterModule.forRoot([
   {
@@ -22,7 +22,7 @@ const routing = RouterModule.forRoot([
     component: HomeComponent
   }, {
     path: 'blog',
-    component: BlogsComponent
+    component: PostsComponent
   }, {
     path: '**',
     redirectTo: 'home',
@@ -41,7 +41,7 @@ const routing = RouterModule.forRoot([
     NavigationComponent,
     AboutComponent,
     HomeComponent,
-    BlogsComponent
+    PostsComponent
   ],
   providers: [
       BaseService,

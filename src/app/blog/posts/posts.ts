@@ -3,17 +3,17 @@
  */
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 
-import template from './blogs.html';
+import template from './posts.html';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Subscription } from 'rxjs/Subscription';
 import { BlogService } from '../../services/index';
 import { Post } from '../../models/index';
 
 @Component({
-  selector: 'blog',
+  selector: 'posts',
   template,
 })
-export class BlogsComponent implements OnInit, OnDestroy, AfterViewInit {
+export class PostsComponent implements OnInit, OnDestroy, AfterViewInit {
     posts: Post[];
     private getPostsSubscription: Subscription
 

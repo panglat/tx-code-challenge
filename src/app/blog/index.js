@@ -1,3 +1,1 @@
-import { BlogsComponent } from '././blogs/blogs';
-
-export default BlogsComponent;
+export { PostsComponent } from './posts/posts';

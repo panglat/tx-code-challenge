@@ -6,12 +6,12 @@
 
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
-import { BlogsComponent } from './blogs';
+import { PostsComponent } from './posts';
 
 xdescribe('Home', function() {
   beforeEach(async(function() {
     TestBed.configureTestingModule({
-      declarations: [BlogsComponent],
+      declarations: [PostsComponent],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   }));
