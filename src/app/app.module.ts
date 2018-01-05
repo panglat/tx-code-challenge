@@ -3,12 +3,14 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { NavigationComponent } from './Navigation';
 import AboutComponent from './about';
 import HomeComponent from './home';
 import BlogComponent from './blog';
+import { BaseService, BlogService } from './services/index';
 
 const routing = RouterModule.forRoot([
   {
@@ -31,6 +33,7 @@ const routing = RouterModule.forRoot([
   imports: [
     BrowserModule,
     routing,
+    HttpClientModule
   ],
   declarations: [
     AppComponent,
@@ -39,6 +42,10 @@ const routing = RouterModule.forRoot([
     HomeComponent,
     BlogComponent
   ],
+  providers: [
+      BaseService,
+      BlogService
+ ], 
   bootstrap: [AppComponent]
 })
 export class AppModule {}
