@@ -14,6 +14,7 @@ import { Post } from '../models/index';
   template,
 })
 export class BlogComponent implements OnInit, OnDestroy, AfterViewInit {
+    posts: Post[];
     private getPostsSubscription: Subscription
 
     constructor(private blogService: BlogService) { }
@@ -27,7 +28,7 @@ export class BlogComponent implements OnInit, OnDestroy, AfterViewInit {
 
     ngAfterViewInit(): void {
         this.getPostsSubscription = this.blogService.getPosts().subscribe((posts: Post[]) => {
-            console.log(posts);
+            this.posts = posts;
         }, error => {
             console.log(error);
         })
