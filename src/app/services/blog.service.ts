@@ -15,4 +15,8 @@ export class BlogService extends BaseService {
     public getPosts(): Observable<Post[]> {
         return this.http.get<Post[]>(`${this.BASE_URL}${this.POSTS}`, this.getOptions())
     }
+
+    public getPost(id: number): Observable<Post> {
+        return this.http.get<Post>(`${this.BASE_URL}${this.POSTS}/${id}`, this.getOptions());
+    }
 }

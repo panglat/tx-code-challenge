@@ -5,12 +5,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 
+import { BaseService, BlogService } from './services/index';
+
 import { AppComponent } from './app.component';
 import { NavigationComponent } from './Navigation';
 import AboutComponent from './about';
 import HomeComponent from './home';
-import BlogComponent from './blog';
-import { BaseService, BlogService } from './services/index';
+import { BlogsComponent } from './blog/blogs/blogs';
 
 const routing = RouterModule.forRoot([
   {
@@ -21,7 +22,7 @@ const routing = RouterModule.forRoot([
     component: HomeComponent
   }, {
     path: 'blog',
-    component: BlogComponent
+    component: BlogsComponent
   }, {
     path: '**',
     redirectTo: 'home',
@@ -40,7 +41,7 @@ const routing = RouterModule.forRoot([
     NavigationComponent,
     AboutComponent,
     HomeComponent,
-    BlogComponent
+    BlogsComponent
   ],
   providers: [
       BaseService,
