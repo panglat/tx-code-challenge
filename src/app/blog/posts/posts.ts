@@ -8,6 +8,7 @@ import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Subscription } from 'rxjs/Subscription';
 import { BlogService } from '../../services/index';
 import { Post } from '../../models/index';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'posts',
@@ -17,7 +18,7 @@ export class PostsComponent implements OnInit, OnDestroy, AfterViewInit {
     posts: Post[];
     private getPostsSubscription: Subscription
 
-    constructor(private blogService: BlogService) { }
+    constructor(private router: Router, private blogService: BlogService) { }
   
     ngOnInit() {
     }
@@ -32,5 +33,9 @@ export class PostsComponent implements OnInit, OnDestroy, AfterViewInit {
         }, error => {
             console.log(error);
         })
+    }
+
+    goToPost(postId: number) {
+        this.router.navigate([`blog/post/${postId}`]);
     }
 }

@@ -1,17 +1,17 @@
 <div>
-  <p class="display-4">Blog!!</p>
-  <div class="row" *ngFor="let post of posts">
-      <div class="col-4">
-        {{post.title}}
-      </div>
-      <div class="col-2">
-        {{post.author}}
-      </div>
-      <div class="col-2">
-        {{post.publish_date}}
-      </div>
-      <div class="col-4">
-        {{post.description}}
-      </div>
-  </div>
+    <p class="display-4">Blog!!</p>
+    <div class="row" *ngFor="let post of posts" (click)="goToPost(post.id)">
+        <div class="col-4">
+            {{post.title}}
+        </div>
+        <div class="col-2">
+            {{post.author}}
+        </div>
+        <div class="col-2">
+            {{post.publish_date}}
+        </div>
+        <div class="col-4">
+            {{post.description}}
+        </div>
+    </div>
 </div>
