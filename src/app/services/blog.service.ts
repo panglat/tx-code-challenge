@@ -23,7 +23,7 @@ export class BlogService extends BaseService {
     }
 
     public getComments(postId: number): Observable<Comment[]> {
-        return this.http.get<Comment[]>(`${this.BASE_URL}${this.POSTS}/${postId}/${this.COMMENTS}`, this.getOptions());
+        return this.http.get<Comment[]>(`${this.BASE_URL}${this.POSTS}/${postId}${this.COMMENTS}`, this.getOptions());
     }
 
     public addComment(postId: number, comment: string): Observable<Object> {

@@ -7,8 +7,10 @@ import template from './post.html';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Subscription } from 'rxjs/Subscription';
 import { BlogService } from '../../services/index';
-import { Post } from '../../models/index';
+import { Post, Comment } from '../../models';
 import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/forkJoin';
 
 @Component({
   selector: 'post',
@@ -16,6 +18,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class PostComponent implements OnInit, OnDestroy, AfterViewInit {
     post: Post;
+    comments: Comment[];
     private getPostSubscription: Subscription
     private routeParamsSubscription: Subscription
 
@@ -38,8 +41,13 @@ export class PostComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     getPostInformation(postId: number) {
-        this.getPostSubscription = this.blogService.getPost(postId).subscribe((post: Post) => {
+        this.getPostSubscription = 
+        Observable.forkJoin(
+            this.blogService.getPost(postId),
+            this.blogService.getComments(postId))
+        .subscribe(([post, comments]) => {
             this.post = post;
+            this.comments = comments;
         }, error => {
             console.log(error);
         })

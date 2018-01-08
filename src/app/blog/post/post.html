@@ -1,4 +1,10 @@
 <div>
     <p class="display-4">Blog Title: {{post?.title}}</p>
-    <p class="display-6">Title: {{post?.title}}</p>
+    <p class="display-6">Author: {{post?.author}}</p>
+    <p class="display-6">Publish Date: {{post?.publish_date}}</p>
+    <div class="row" *ngFor="let comment of comments">
+        <div class="col-12">
+            {{comment?.date}} {{comment?.user}} - {{comment?.content}}
+        </div>
+    </div>
 </div>
