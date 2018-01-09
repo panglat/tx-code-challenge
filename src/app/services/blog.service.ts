@@ -37,12 +37,10 @@ export class BlogService extends BaseService {
     public getComments(postId: number): Observable<Comment[]> {
         return this.http.get<Comment[]>(`${this.BASE_URL}${this.POSTS}/${postId}${this.COMMENTS}`, this.getOptions())
         .map(comments => {
-            console.log(comments);
             const c = comments.filter(cmnt => {
                 cmnt.children = this.findChildrenComments(cmnt, comments);
                 return !cmnt.parent_id;
             });
-            console.log(c);
             return c;
         });
     }

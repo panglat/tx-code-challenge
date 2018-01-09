@@ -47,20 +47,16 @@ export class CommentComponent implements OnInit, AfterViewChecked {
         this.isCommentInEdition = !this.isCommentInEdition;
     }
 
-    commentOnBlur() {
+    updateComment() {
         if (this.isCommentInEdition) {
             this.isCommentInEdition = false;
-            if (this.comment.content !== this.commentInEdition) {
+            if(this.commentInEdition.length > 0 && this.comment.content !== this.commentInEdition) {
                 this.comment.content = this.commentInEdition;
 
-                /* const tmpComment: Comment = Object.assign({}, this.comment);*/
-                const tmpComment = <Comment>{};
+                const tmpComment: Comment = Object.assign(<Comment>{}, this.comment);
                 tmpComment.content = this.comment.content;
-                tmpComment.date = this.comment.date;
-                tmpComment.id = this.comment.id;
-                tmpComment.parent_id = this.comment.parent_id;
-                tmpComment.postId = this.comment.postId;
-                tmpComment.user = this.comment.user;
+                tmpComment.children = null;
+                tmpComment.parent = null;
                 this.updateCommentSubscription = this.blogService.updateComment(tmpComment)
                     .subscribe();
             }
