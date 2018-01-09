@@ -8,7 +8,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const webpack = require('webpack');
 const path = require('path');
-const WatchIgnorePlugin = require('watch-ignore-webpack-plugin');
 
 // Name of output folder for webpack builds:
 const OUTPUT_PATH = 'dist';
@@ -163,9 +162,6 @@ const config = {
       /angular(\\|\/)core(\\|\/)(@angular|esm5)/,
       __dirname
     ),
-    new WatchIgnorePlugin([
-      path.resolve(__dirname, './api/'),
-    ])
   ]
 };
 
