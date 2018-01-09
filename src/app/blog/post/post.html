@@ -8,4 +8,7 @@
             <comment [comment]="comment"></comment>
         </div>
     </div>
+    <span *ngIf="!isAddingNewComment" (click)="addNewComment()">Add new comment</span>
+    <input *ngIf="isAddingNewComment" type="text" [(ngModel)]="newComment" (blur)="saveComment()" (keyup.enter)="saveComment()" #commentInput>
+
 </div>

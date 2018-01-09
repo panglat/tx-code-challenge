@@ -47,11 +47,11 @@ export class BlogService extends BaseService {
         });
     }
 
-    public addComment(postId: number, comment: string): Observable<Object> {
-        return this.http.post(`${this.BASE_URL}${this.POSTS}/${postId}/${this.COMMENTS}`, comment, this.getOptions());
+    public addNewComment(comment: Comment): Observable<Object> {
+        return this.http.post<Comment>(`${this.BASE_URL}${this.POSTS}/${comment.postId}${this.COMMENTS}`, comment, this.getOptions());
     }
 
     public updateComment(comment: Comment): Observable<Object> {
-        return this.http.put(`${this.BASE_URL}${this.COMMENTS}/${comment.id}`, comment, this.getOptions());
+        return this.http.put<Comment>(`${this.BASE_URL}${this.COMMENTS}/${comment.id}`, comment, this.getOptions());
     }
 }
