@@ -1,0 +1,8 @@
+<div class="comment-main-div">
+    {{comment?.date}} {{comment?.user}} - {{comment?.content}}
+    <div class="row" *ngFor="let cmnt of comment.children">
+        <div class="col-12">
+            <comment [comment]="cmnt"></comment>
+        </div>
+    </div>
+</div>

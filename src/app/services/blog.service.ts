@@ -4,6 +4,7 @@ import { BaseService } from './base.service';
 import { Post } from '../models/index';
 import { Observable } from 'rxjs/Observable';
 import { Comment } from '../models/comment';
+import 'rxjs/add/operator/map'
 
 @Injectable()
 export class BlogService extends BaseService {
@@ -22,8 +23,25 @@ export class BlogService extends BaseService {
         return this.http.get<Post>(`${this.BASE_URL}${this.POSTS}/${postId}`, this.getOptions());
     }
 
+    public findChildrenComments(comment: Comment, comments: Comment[]) {
+        return comments.filter(cmnt => {
+            if(cmnt.parent_id && cmnt.parent_id === comment.id) {
+                cmnt.parent = comment;
+                return true;
+            } else {
+                return false;
+            }
+        })
+    }
+
     public getComments(postId: number): Observable<Comment[]> {
-        return this.http.get<Comment[]>(`${this.BASE_URL}${this.POSTS}/${postId}${this.COMMENTS}`, this.getOptions());
+        return this.http.get<Comment[]>(`${this.BASE_URL}${this.POSTS}/${postId}${this.COMMENTS}`, this.getOptions())
+        .map(comments => {
+            return comments.filter(cmnt => {
+                cmnt.children = this.findChildrenComments(cmnt, comments);
+                return cmnt.parent_id === null;
+            });
+        });
     }
 
     public addComment(postId: number, comment: string): Observable<Object> {

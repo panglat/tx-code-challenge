@@ -11,7 +11,7 @@ import { AppComponent } from './app.component';
 import { NavigationComponent } from './Navigation';
 import AboutComponent from './about';
 import HomeComponent from './home';
-import { PostsComponent, PostComponent } from './blog';
+import { PostsComponent, PostComponent, CommentComponent } from './blog';
 
 const routing = RouterModule.forRoot([
   {
@@ -45,7 +45,8 @@ const routing = RouterModule.forRoot([
     AboutComponent,
     HomeComponent,
     PostsComponent,
-    PostComponent
+    PostComponent,
+    CommentComponent
   ],
   providers: [
       BaseService,
