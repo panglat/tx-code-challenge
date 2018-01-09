@@ -51,7 +51,7 @@ export class BlogService extends BaseService {
         return this.http.post(`${this.BASE_URL}${this.POSTS}/${postId}/${this.COMMENTS}`, comment, this.getOptions());
     }
 
-    public updateComment(commentId: number, comment: string): Observable<Object> {
-        return this.http.put(`${this.BASE_URL}${this.COMMENTS}/${commentId}`, comment, this.getOptions());
+    public updateComment(comment: Comment): Observable<Object> {
+        return this.http.put(`${this.BASE_URL}${this.COMMENTS}/${comment.id}`, comment, this.getOptions());
     }
 }
