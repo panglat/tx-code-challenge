@@ -19,10 +19,14 @@ import { BlogService } from '../../services/blog.service';
 export class CommentComponent implements OnInit, AfterViewChecked {
     @Input() comment: Comment;
     @ViewChild('#updateCommentInput') updateCommentInput: ElementRef;
+    @ViewChild('replyCommentInput') replyCommentInput: ElementRef;
     isCommentBeingUpdated = false;
+    isCommentBeingReplied = false;
     commentText: String = '';
     setFocusOnUpdateCommentInput = false;
+    setFocusOnReplyCommentInput = false;
     updateCommentSubscription: Subscription;
+    // replyCommentSubscription: Subscription;
 
     constructor(private blogService: BlogService) { }
 
@@ -37,6 +41,13 @@ export class CommentComponent implements OnInit, AfterViewChecked {
                 this.setFocusOnUpdateCommentInput = false;
             }
         }
+
+        if (this.setFocusOnReplyCommentInput) {
+            if (this.replyCommentInput && this.replyCommentInput.nativeElement) {
+                this.replyCommentInput.nativeElement.focus();
+                this.setFocusOnReplyCommentInput = false;
+            }
+        }
     }
 
     updateCommentClick() {
@@ -45,6 +56,18 @@ export class CommentComponent implements OnInit, AfterViewChecked {
             this.commentText = this.comment.content;
             this.setFocusOnUpdateCommentInput = true;
         }
+        this.isCommentBeingReplied = false;
+        this.setFocusOnReplyCommentInput = false;
+    }
+
+    replyCommentClick() { 
+        this.isCommentBeingReplied = !this.isCommentBeingReplied;
+        if (this.isCommentBeingReplied) {
+            this.commentText = '';
+            this.setFocusOnReplyCommentInput = true;
+        }
+        this.isCommentBeingUpdated = false;
+        this.setFocusOnUpdateCommentInput = false; 
     }
 
     updateComment() {
@@ -62,4 +85,27 @@ export class CommentComponent implements OnInit, AfterViewChecked {
             }
         }
     }
+
+    replyComment() {
+        if (this.isCommentBeingReplied) {
+            this.isCommentBeingReplied = false;
+            if(this.commentText.length > 0) {
+                const tmpComment: Comment = <Comment>{};
+                tmpComment.content = this.commentText;
+                tmpComment.date = new Date().toJSON().slice(0, 10);
+                tmpComment.parent_id = this.comment.id;
+                tmpComment.postId = this.comment.postId;
+                tmpComment.user = 'Test user reply';
+                this.updateCommentSubscription = this.blogService.addNewComment(tmpComment)
+                    .subscribe((comment: Comment) => {
+                        comment.parent = this.comment;
+                        if(!this.comment.children) {
+                            this.comment.children = new Array<Comment>();
+                        }
+                        this.comment.children.push(comment);
+                    });
+            }
+        }
+    }
+    
 }
