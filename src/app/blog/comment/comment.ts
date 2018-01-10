@@ -19,15 +19,15 @@ import { BlogService } from '../../services/blog.service';
 export class CommentComponent implements OnInit, AfterViewChecked {
     @Input() comment: Comment;
     @ViewChild('commentInput') commentInput: ElementRef;
-    isCommentInEdition = false;
-    commentInEdition: String = '';
+    isCommentBeingUpdated = false;
+    commentText: String = '';
     setFocusOnInput = false;
     updateCommentSubscription: Subscription;
 
     constructor(private blogService: BlogService) { }
 
     ngOnInit() {
-        this.commentInEdition = this.comment.content;
+        this.commentText = this.comment.content;
     }
 
     ngAfterViewChecked() {
@@ -39,19 +39,19 @@ export class CommentComponent implements OnInit, AfterViewChecked {
         }
     }
 
-    commentClick() {
-        if (!this.commentInEdition) {
-            this.commentInEdition = this.comment.content;
+    updateCommentClick() {
+        if (!this.commentText) {
+            this.commentText = this.comment.content;
             this.setFocusOnInput = true;
         }
-        this.isCommentInEdition = !this.isCommentInEdition;
+        this.isCommentBeingUpdated = !this.isCommentBeingUpdated;
     }
 
     updateComment() {
-        if (this.isCommentInEdition) {
-            this.isCommentInEdition = false;
-            if(this.commentInEdition.length > 0 && this.comment.content !== this.commentInEdition) {
-                this.comment.content = this.commentInEdition;
+        if (this.isCommentBeingUpdated) {
+            this.isCommentBeingUpdated = false;
+            if(this.commentText.length > 0 && this.comment.content !== this.commentText) {
+                this.comment.content = this.commentText;
 
                 const tmpComment: Comment = Object.assign(<Comment>{}, this.comment);
                 tmpComment.content = this.comment.content;

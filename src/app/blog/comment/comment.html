@@ -1,7 +1,7 @@
 <div class="comment-main-div">
-    <span (click)="commentClick()">{{comment?.date}} {{comment?.user}} - </span>
-    <span *ngIf="!isCommentInEdition" (click)="commentClick()">{{comment?.content}}</span>
-    <input *ngIf="isCommentInEdition" type="text" [(ngModel)]="commentInEdition" (blur)="updateComment()" (keyup.enter)="updateComment()" #commentInput>
+    <span (click)="updateCommentClick()">{{comment?.date}} {{comment?.user}} - </span>
+    <span *ngIf="!isCommentBeingUpdated" (click)="updateCommentClick()">{{comment?.content}}</span>
+    <input *ngIf="isCommentBeingUpdated" type="text" [(ngModel)]="commentText" (blur)="updateComment()" (keyup.enter)="updateComment()" #commentInput>
     <div class="row" *ngFor="let cmnt of comment.children">
         <div class="col-12">
             <comment [comment]="cmnt"></comment>
