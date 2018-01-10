@@ -21,4 +21,12 @@ describe('BlogService', () => {
         http.expectOne(`${service.BASE_URL}/posts`).flush(expectedPosts);
         expect(actualPosts).toEqual(expectedPosts);
     }));
+
+    it('should fail listing the posts', inject([BlogService, HttpTestingController], (service: BlogService) => {
+        let actualPosts = new Array<Post>();
+        service.getPosts().subscribe((posts) => {
+            actualPosts = posts;
+        })
+        expect(actualPosts.length).toBe(2);
+    }));    
 });

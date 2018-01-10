@@ -62,5 +62,6 @@ module.exports = function(config) {
     },
     singleRun: true,
     concurrency: Infinity,
+    browserNoActivityTimeout: 100000
   });
 }
