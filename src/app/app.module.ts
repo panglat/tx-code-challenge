@@ -13,6 +13,7 @@ import { NavigationComponent } from './Navigation';
 import AboutComponent from './about';
 import HomeComponent from './home';
 import { PostsComponent, PostComponent, CommentComponent } from './blog';
+import { SortPostByDateNewestFirstPipe } from './pipes';
 
 const routing = RouterModule.forRoot([
   {
@@ -48,7 +49,8 @@ const routing = RouterModule.forRoot([
     HomeComponent,
     PostsComponent,
     PostComponent,
-    CommentComponent
+    CommentComponent,
+    SortPostByDateNewestFirstPipe
   ],
   providers: [
       BaseService,
