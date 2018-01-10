@@ -4,6 +4,7 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 
 import template from './posts.html';
+import style from './posts.scss';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Subscription } from 'rxjs/Subscription';
 import { BlogService } from '../../services/index';
@@ -13,6 +14,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'posts',
   template,
+  styles: [style]
 })
 export class PostsComponent implements OnInit, OnDestroy, AfterViewInit {
     posts: Post[];
