@@ -1,7 +1,7 @@
 /**
  * @overview Home page.  Renders static content.
  */
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
 
 import template from './post.html';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
@@ -16,11 +16,13 @@ import 'rxjs/add/observable/forkJoin';
     selector: 'post',
     template,
 })
-export class PostComponent implements OnInit, OnDestroy, AfterViewInit {
+export class PostComponent implements OnInit, OnDestroy, AfterViewChecked {
     post: Post;
     comments: Comment[];
     isAddingNewComment = false;
     newComment = '';
+    setFocusOnCommentInput = false;
+    @ViewChild('commentInput') commentInput: ElementRef;
     private getPostSubscription: Subscription;
     private routeParamsSubscription: Subscription;
     private addNewCommentSubscription: Subscription;
@@ -41,7 +43,13 @@ export class PostComponent implements OnInit, OnDestroy, AfterViewInit {
         if (this.addNewCommentSubscription) { this.addNewCommentSubscription.unsubscribe(); }
     }
 
-    ngAfterViewInit(): void {
+    ngAfterViewChecked(): void {
+        if (this.setFocusOnCommentInput) {
+            if (this.commentInput && this.commentInput.nativeElement) {
+                this.commentInput.nativeElement.focus();
+                this.setFocusOnCommentInput = false;
+            }
+        }
     }
 
     getPostInformation(postId: number) {
@@ -59,7 +67,10 @@ export class PostComponent implements OnInit, OnDestroy, AfterViewInit {
 
     addNewComment() {
         this.isAddingNewComment = !this.isAddingNewComment;
-        if (this.isAddingNewComment) { this.newComment = ''; }
+        if (this.isAddingNewComment) { 
+            this.newComment = ''; 
+            this.setFocusOnCommentInput = true;
+        }
     }
 
     saveComment() {

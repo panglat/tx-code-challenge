@@ -18,7 +18,7 @@ import { BlogService } from '../../services/blog.service';
 
 export class CommentComponent implements OnInit, AfterViewChecked {
     @Input() comment: Comment;
-    @ViewChild('#updateCommentInput') updateCommentInput: ElementRef;
+    @ViewChild('updateCommentInput') updateCommentInput: ElementRef;
     @ViewChild('replyCommentInput') replyCommentInput: ElementRef;
     isCommentBeingUpdated = false;
     isCommentBeingReplied = false;
