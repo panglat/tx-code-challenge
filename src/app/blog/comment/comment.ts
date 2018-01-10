@@ -18,10 +18,10 @@ import { BlogService } from '../../services/blog.service';
 
 export class CommentComponent implements OnInit, AfterViewChecked {
     @Input() comment: Comment;
-    @ViewChild('commentInput') commentInput: ElementRef;
+    @ViewChild('#updateCommentInput') updateCommentInput: ElementRef;
     isCommentBeingUpdated = false;
     commentText: String = '';
-    setFocusOnInput = false;
+    setFocusOnUpdateCommentInput = false;
     updateCommentSubscription: Subscription;
 
     constructor(private blogService: BlogService) { }
@@ -31,20 +31,20 @@ export class CommentComponent implements OnInit, AfterViewChecked {
     }
 
     ngAfterViewChecked() {
-        if (this.setFocusOnInput) {
-            if (this.commentInput && this.commentInput.nativeElement) {
-                this.commentInput.nativeElement.focus();
-                this.setFocusOnInput = false;
+        if (this.setFocusOnUpdateCommentInput) {
+            if (this.updateCommentInput && this.updateCommentInput.nativeElement) {
+                this.updateCommentInput.nativeElement.focus();
+                this.setFocusOnUpdateCommentInput = false;
             }
         }
     }
 
     updateCommentClick() {
-        if (!this.commentText) {
-            this.commentText = this.comment.content;
-            this.setFocusOnInput = true;
-        }
         this.isCommentBeingUpdated = !this.isCommentBeingUpdated;
+        if (this.isCommentBeingUpdated) {
+            this.commentText = this.comment.content;
+            this.setFocusOnUpdateCommentInput = true;
+        }
     }
 
     updateComment() {
