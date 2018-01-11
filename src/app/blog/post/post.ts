@@ -6,9 +6,9 @@ import { Component, OnInit, ViewChild, ElementRef, AfterViewChecked } from '@ang
 import template from './post.html';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Subscription } from 'rxjs/Subscription';
-import { BlogService } from '../../services/index';
+import { BlogService, SharedMemoryService } from '../../services';
 import { Post, Comment } from '../../models';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/forkJoin';
 
@@ -27,7 +27,7 @@ export class PostComponent implements OnInit, OnDestroy, AfterViewChecked {
     private routeParamsSubscription: Subscription;
     private addNewCommentSubscription: Subscription;
 
-    constructor(private route: ActivatedRoute, private blogService: BlogService) { }
+    constructor(private route: ActivatedRoute, private router: Router, private blogService: BlogService, private sharedMemoryService: SharedMemoryService) { }
 
     ngOnInit() {
         this.routeParamsSubscription = this.route.params.subscribe(params => {
@@ -66,28 +66,40 @@ export class PostComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
 
     addNewComment() {
-        this.isAddingNewComment = !this.isAddingNewComment;
-        if (this.isAddingNewComment) { 
-            this.newComment = ''; 
-            this.setFocusOnCommentInput = true;
+        if (this.sharedMemoryService.isUserNameValid()) {
+            this.isAddingNewComment = !this.isAddingNewComment;
+            if (this.isAddingNewComment) {
+                this.newComment = '';
+                this.setFocusOnCommentInput = true;
+            }
+        } else {
+            this.goToLogin();
         }
     }
 
     saveComment() {
-        if (this.isAddingNewComment) {
-            this.isAddingNewComment = false;
-            if (this.newComment.length > 0) {
-                const newComment = <Comment>{}
-                newComment.content = this.newComment;
-                newComment.date = new Date().toJSON().slice(0, 10);
-                newComment.postId = this.post.id;
-                newComment.user = 'test user';
-                this.addNewCommentSubscription = this.blogService.addNewComment(newComment)
-                    .subscribe((comment: Comment) => {
-                        this.comments.push(comment);
-                    });
+        if (this.sharedMemoryService.isUserNameValid()) {
+            if (this.isAddingNewComment) {
+                this.isAddingNewComment = false;
+                if (this.newComment.length > 0) {
+                    const newComment = <Comment>{}
+                    newComment.content = this.newComment;
+                    newComment.date = new Date().toJSON().slice(0, 10);
+                    newComment.postId = this.post.id;
+                    newComment.user = this.sharedMemoryService.userName;
+                    this.addNewCommentSubscription = this.blogService.addNewComment(newComment)
+                        .subscribe((comment: Comment) => {
+                            this.comments.push(comment);
+                        });
+                }
             }
+        } else {
+            this.goToLogin();
         }
+    }
 
+    goToLogin() {
+        this.sharedMemoryService.refererUrl = this.router.url;
+        this.router.navigate(['login']);
     }
 }

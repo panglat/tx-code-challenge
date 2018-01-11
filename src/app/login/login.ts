@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
     loginButtonClicked() {
         if(this.userName.length > 0) {
             this.sharedMemoryService.userName = this.userName;
-            const url = this.sharedMemoryService.refererUrl ? this.sharedMemoryService.refererUrl : 'blog';
+            const url = this.sharedMemoryService.isRefererUrlValid() ? this.sharedMemoryService.refererUrl : 'blog';
             this.sharedMemoryService.refererUrl = null;
             this.router.navigate([url]);
         }
