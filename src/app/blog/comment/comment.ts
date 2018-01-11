@@ -129,4 +129,20 @@ export class CommentComponent implements OnInit, AfterViewChecked {
         this.sharedMemoryService.refererUrl = this.router.url;
         this.router.navigate(['login']);
     }
+
+    cancelComment() {
+        this.isCommentBeingReplied = false;
+    }
+
+    cancelUpdate() {
+        this.isCommentBeingUpdated = false;
+    }
+
+    get currentUser(): string {
+        return this.sharedMemoryService.userName;
+    }
+
+    get currentDate(): string {
+        return new Date().toJSON().slice(0, 10);
+    }
 }

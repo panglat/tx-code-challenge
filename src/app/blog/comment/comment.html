@@ -1,13 +1,27 @@
 <div class="margin">
-    <span (click)="updateCommentClick()" class="pointer">{{comment?.date}} {{comment?.user}} - </span>
-    <span *ngIf="!isCommentBeingUpdated" (click)="updateCommentClick()" class="pointer">{{comment?.content}}</span> <span *ngIf="!isCommentBeingUpdated" (click)="replyCommentClick()" class="link">Reply</span>
-    <input *ngIf="isCommentBeingUpdated" type="text" [(ngModel)]="commentText" (blur)="updateComment()" (keyup.enter)="updateComment()" #updateCommentInput>
+    <div class="speech-bubble pointer">
+        <div class="speech-bubble-inner">
+            <p (click)="updateCommentClick()" class="pointer">
+                <b>{{comment?.date}} - {{comment?.user}}</b>
+            </p>
+            <p *ngIf="!isCommentBeingUpdated" (click)="updateCommentClick()">{{comment?.content}}</p>
+            <p *ngIf="!isCommentBeingUpdated" (click)="replyCommentClick()" class="link">Reply</p>
+            <input *ngIf="isCommentBeingUpdated" type="text" [(ngModel)]="commentText" (blur)="updateComment()" (keyup.enter)="updateComment()"
+                (keydown.esc)="cancelUpdate()" #updateCommentInput>
+        </div>
+    </div>
     <div class="row" *ngFor="let cmnt of comment.children">
         <div class="col-12">
             <comment [comment]="cmnt"></comment>
         </div>
     </div>
-    <div class="row margin">
-        <input *ngIf="isCommentBeingReplied" type="text" [(ngModel)]="commentText" (blur)="replyComment()" (keyup.enter)="replyComment()" #replyCommentInput>
+    <div class="row margin" *ngIf="isCommentBeingReplied">
+        <div class="speech-bubble pointer">
+            <div class="speech-bubble-inner">
+                <p><b>{{currentDate}} - {{currentUser}}</b></p>
+                <input type="text" [(ngModel)]="commentText" (blur)="replyComment()" (keyup.enter)="replyComment()"
+                    (keydown.esc)="cancelComment()" #replyCommentInput>
+            </div>
+        </div>
     </div>
 </div>

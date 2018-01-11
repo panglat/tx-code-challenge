@@ -1,3 +1,32 @@
 .margin {
-    margin-left: 20px;
+    margin-left: 30px;
+}
+
+.speech-bubble {
+	position: relative;
+	background: #dee2e6;
+    border-radius: .4em;
+    margin: 10px;
+}
+
+.speech-bubble:after {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 50%;
+	width: 0;
+	height: 0;
+	border: 26px solid transparent;
+	border-right-color: #dee2e6;
+	border-left: 0;
+	margin-top: -26px;
+	margin-left: -26px;
+}
+
+.speech-bubble-inner {
+    padding: 10px;
+}
+
+p {
+    margin: 0;
 }
