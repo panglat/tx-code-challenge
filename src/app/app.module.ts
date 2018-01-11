@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
-import { BaseService, BlogService, SharedMemoryService } from './services/index';
+import { BaseService, BlogService, SharedMemoryService, LoadingService } from './services/index';
 
 import { AppComponent } from './app.component';
 import { NavigationComponent } from './Navigation';
@@ -16,6 +16,7 @@ import LoginComponent from './login';
 import { PostsComponent, PostComponent, CommentComponent } from './blog';
 import { SortPostByDateNewestFirstPipe } from './pipes';
 import { MessageModalComponent } from './modals';
+import { LoadingComponent } from './loading/loading';
 
 const routing = RouterModule.forRoot([
   {
@@ -57,12 +58,14 @@ const routing = RouterModule.forRoot([
     CommentComponent,
     SortPostByDateNewestFirstPipe,
     LoginComponent,
-    MessageModalComponent
+    MessageModalComponent,
+    LoadingComponent
   ],
   providers: [
       BaseService,
       BlogService,
-      SharedMemoryService
+      SharedMemoryService,
+      LoadingService
  ], 
   bootstrap: [AppComponent]
 })

@@ -1,16 +1,11 @@
 /**
  * @overview Our main app layout.
  */
+import template from './app.component.html';
 import { Component } from '@angular/core';
 
 @Component({
   selector: 'app',
-  template: `
-    <navigation></navigation>
-
-    <div class='px-3'>
-      <router-outlet></router-outlet>
-    </div>
-  `,
+  template,
 })
 export class AppComponent {}
