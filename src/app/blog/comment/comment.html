@@ -1,6 +1,6 @@
 <div class="margin">
-    <span (click)="updateCommentClick()">{{comment?.date}} {{comment?.user}} - </span>
-    <span *ngIf="!isCommentBeingUpdated" (click)="updateCommentClick()">{{comment?.content}}</span> <span *ngIf="!isCommentBeingUpdated" (click)="replyCommentClick()">Reply</span>
+    <span (click)="updateCommentClick()" class="pointer">{{comment?.date}} {{comment?.user}} - </span>
+    <span *ngIf="!isCommentBeingUpdated" (click)="updateCommentClick()" class="pointer">{{comment?.content}}</span> <span *ngIf="!isCommentBeingUpdated" (click)="replyCommentClick()" class="link">Reply</span>
     <input *ngIf="isCommentBeingUpdated" type="text" [(ngModel)]="commentText" (blur)="updateComment()" (keyup.enter)="updateComment()" #updateCommentInput>
     <div class="row" *ngFor="let cmnt of comment.children">
         <div class="col-12">

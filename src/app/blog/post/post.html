@@ -1,14 +1,13 @@
 <div>
-    <p class="display-6" [routerLink]="['/blog']">Back to blog list</p>
-    <p class="display-4">Blog Title: {{post?.title}}</p>
-    <p class="display-6">Author: {{post?.author}}</p>
-    <p class="display-6">Publish Date: {{post?.publish_date}}</p>
+    <p [routerLink]="['/blog']" class="link">Back to blog list</p>
+    <h2>Blog Title: {{post?.title}}</h2>
+    <p><b>Author:</b> {{post?.author}}</p>
+    <p><b>Publish Date:</b> {{post?.publish_date}}</p>
     <div class="row" *ngFor="let comment of comments">
         <div class="col-12">
             <comment [comment]="comment"></comment>
         </div>
     </div>
-    <span *ngIf="!isAddingNewComment" (click)="addNewComment()">Add new comment</span>
+    <span *ngIf="!isAddingNewComment" (click)="addNewComment()" class="link">Add new comment</span>
     <input *ngIf="isAddingNewComment" type="text" [(ngModel)]="newComment" (blur)="saveComment()" (keyup.enter)="saveComment()" #commentInput>
-
 </div>
