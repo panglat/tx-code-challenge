@@ -1,0 +1,1 @@
+export { MessageModalComponent } from './messageModal/message-modal';

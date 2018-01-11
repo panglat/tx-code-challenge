@@ -11,6 +11,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { BlogService } from '../../services/blog.service';
 import { Router } from '@angular/router';
 import { SharedMemoryService } from '../../services';
+import { MessageModalComponent } from '../../modals';
 
 @Component({
     selector: 'comment',
@@ -20,6 +21,7 @@ import { SharedMemoryService } from '../../services';
 
 export class CommentComponent implements OnInit, AfterViewChecked {
     @Input() comment: Comment;
+    @ViewChild(MessageModalComponent) messageModalComponent: MessageModalComponent;
     @ViewChild('updateCommentInput') updateCommentInput: ElementRef;
     @ViewChild('replyCommentInput') replyCommentInput: ElementRef;
     isCommentBeingUpdated = false;
@@ -83,6 +85,7 @@ export class CommentComponent implements OnInit, AfterViewChecked {
         if (this.sharedMemoryService.isUserNameValid()) {
             if (this.isCommentBeingUpdated) {
                 this.isCommentBeingUpdated = false;
+                const oldMessage = this.comment.content;
                 if (this.commentText.length > 0 && this.comment.content !== this.commentText) {
                     this.comment.content = this.commentText;
 
@@ -91,7 +94,12 @@ export class CommentComponent implements OnInit, AfterViewChecked {
                     tmpComment.children = null;
                     tmpComment.parent = null;
                     this.updateCommentSubscription = this.blogService.updateComment(tmpComment)
-                        .subscribe();
+                        .subscribe(() => {
+                        }, error => {
+                            console.log(error);
+                            this.messageModalComponent.show('Error', 'Error updating the comment');
+                            this.comment.content = oldMessage;
+                        })
                 }
             }
         } else {
@@ -117,7 +125,10 @@ export class CommentComponent implements OnInit, AfterViewChecked {
                                 this.comment.children = new Array<Comment>();
                             }
                             this.comment.children.push(comment);
-                        });
+                        }, error => {
+                            console.log(error);
+                            this.messageModalComponent.show('Error', 'Error replying the comment');
+                        })
                 }
             }
         } else {

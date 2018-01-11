@@ -9,7 +9,9 @@
     ],
     "types": [
       "jasmine", 
-      "webpack-env"
+      "webpack-env",
+      "jquery", 
+      "bootstrap"
     ],
     "jsx": "preserve",
     "target": "es2016",

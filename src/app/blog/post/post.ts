@@ -11,18 +11,20 @@ import { Post, Comment } from '../../models';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/forkJoin';
+import { MessageModalComponent } from '../../modals';
 
 @Component({
     selector: 'post',
     template,
 })
 export class PostComponent implements OnInit, OnDestroy, AfterViewChecked {
+    @ViewChild(MessageModalComponent) messageModalComponent: MessageModalComponent;
+    @ViewChild('commentInput') commentInput: ElementRef;
     post: Post;
     comments: Comment[];
     isAddingNewComment = false;
     newComment = '';
     setFocusOnCommentInput = false;
-    @ViewChild('commentInput') commentInput: ElementRef;
     private getPostSubscription: Subscription;
     private routeParamsSubscription: Subscription;
     private addNewCommentSubscription: Subscription;
@@ -62,6 +64,7 @@ export class PostComponent implements OnInit, OnDestroy, AfterViewChecked {
                     this.comments = comments;
                 }, error => {
                     console.log(error);
+                    this.messageModalComponent.show('Error', 'Error retrieving the post information');
                 })
     }
 
@@ -80,17 +83,24 @@ export class PostComponent implements OnInit, OnDestroy, AfterViewChecked {
     saveComment() {
         if (this.sharedMemoryService.isUserNameValid()) {
             if (this.isAddingNewComment) {
-                this.isAddingNewComment = false;
-                if (this.newComment.length > 0) {
-                    const newComment = <Comment>{}
-                    newComment.content = this.newComment;
-                    newComment.date = new Date().toJSON().slice(0, 10);
-                    newComment.postId = this.post.id;
-                    newComment.user = this.sharedMemoryService.userName;
-                    this.addNewCommentSubscription = this.blogService.addNewComment(newComment)
-                        .subscribe((comment: Comment) => {
-                            this.comments.push(comment);
-                        });
+                try {
+                    this.isAddingNewComment = false;
+                    if (this.newComment.length > 0) {
+                        const newComment = <Comment>{}
+                        newComment.content = this.newComment;
+                        newComment.date = new Date().toJSON().slice(0, 10);
+                        newComment.postId = this.post.id;
+                        newComment.user = this.sharedMemoryService.userName;
+                        this.addNewCommentSubscription = this.blogService.addNewComment(newComment)
+                            .subscribe((comment: Comment) => {
+                                this.comments.push(comment);
+                            }, (error) => {
+                                console.log(error);
+                                this.messageModalComponent.show('Error', 'Error creating the new comment');
+                            })
+                    }
+                } catch (error) {
+                    this.messageModalComponent.show('Error', 'Error creating the new comment');
                 }
             }
         } else {

@@ -15,6 +15,7 @@ import HomeComponent from './home';
 import LoginComponent from './login';
 import { PostsComponent, PostComponent, CommentComponent } from './blog';
 import { SortPostByDateNewestFirstPipe } from './pipes';
+import { MessageModalComponent } from './modals';
 
 const routing = RouterModule.forRoot([
   {
@@ -55,7 +56,8 @@ const routing = RouterModule.forRoot([
     PostComponent,
     CommentComponent,
     SortPostByDateNewestFirstPipe,
-    LoginComponent
+    LoginComponent,
+    MessageModalComponent
   ],
   providers: [
       BaseService,
