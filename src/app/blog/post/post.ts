@@ -102,4 +102,12 @@ export class PostComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.sharedMemoryService.refererUrl = this.router.url;
         this.router.navigate(['login']);
     }
+
+    get currentUser(): string {
+        return this.sharedMemoryService.userName;
+    }
+
+    get currentDate(): string {
+        return new Date().toJSON().slice(0, 10);
+    }
 }

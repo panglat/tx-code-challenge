@@ -9,5 +9,10 @@
         </div>
     </div>
     <span *ngIf="!isAddingNewComment" (click)="addNewComment()" class="link">Add new comment</span>
-    <input *ngIf="isAddingNewComment" type="text" [(ngModel)]="newComment" (blur)="saveComment()" (keyup.enter)="saveComment()" #commentInput>
+    <div class="speech-bubble pointer" *ngIf="isAddingNewComment">
+            <div class="speech-bubble-inner">
+                <p><b>{{currentDate}} - {{currentUser}}</b></p>
+                <input type="text" [(ngModel)]="newComment" (blur)="saveComment()" (keyup.enter)="saveComment()" #commentInput>
+            </div>
+        </div>
 </div>
