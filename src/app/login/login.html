@@ -1,0 +1,11 @@
+<div>
+    <h2>User name</h2>
+    <p>In order to add / edit comments, it is needed you user name:</p>
+    <form>
+        <div class="form-group">
+            <label for="usr">User name:</label>
+            <input type="text" class="form-control" id="usr" [(ngModel)]="userName" name="userName" placeholder="User name" (keyup.enter)="loginButtonClicked()">
+        </div>
+        <button type="button" class="btn btn-secondary btn-block" [disabled]="userName.length === 0" (click)="loginButtonClicked()">Login</button>
+    </form>
+</div>
