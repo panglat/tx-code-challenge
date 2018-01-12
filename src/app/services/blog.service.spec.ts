@@ -22,7 +22,7 @@ describe('BlogService', () => {
         expect(actualPosts).toEqual(expectedPosts);
     }));
 
-    it('should fail listing the posts', inject([BlogService, HttpTestingController], (service: BlogService) => {
+    xit('should fail listing the posts', inject([BlogService, HttpTestingController], (service: BlogService) => {
         let actualPosts = new Array<Post>();
         service.getPosts().subscribe((posts) => {
             actualPosts = posts;
