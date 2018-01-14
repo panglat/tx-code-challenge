@@ -2,54 +2,39 @@ import { async, ComponentFixture, TestBed, inject, tick, fakeAsync } from '@angu
 
 import { PostsComponent } from './posts';
 import { DebugElement } from '@angular/core';
-import { BlogService } from '../../services/blog.service';
+import { BlogService } from '../../services/';
 import { By } from '@angular/platform-browser';
 import { MessageModalComponent } from '../../modals';
 import { SortPostByDateNewestFirstPipe } from '../../pipes';
 import { RouterTestingModule } from '@angular/router/testing';
-import { AboutComponent } from '../../about/About';
-import { HomeComponent } from '../../home/Home';
-import { PostComponent } from '../index';
-import { LoginComponent } from '../../login/login';
-import { CommentComponent } from '../comment/comment';
+import { PostComponent } from '../';
+import { CommentComponent } from '../';
 import { FormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Post } from '../../models/index';
+import { Post } from '../../models';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
+import { Routes } from '@angular/router';
 
 describe('PostsComponent', () => {
     let component: PostsComponent;
     let fixture: ComponentFixture<PostsComponent>;
     let el: DebugElement;
 
-    let routes = [
+    let routes: Routes = [
         {
-            path: 'about',
-            component: AboutComponent
-        }, {
-            path: 'home',
-            component: HomeComponent
-        }, {
             path: 'blog',
             children: [
                 { path: '', component: PostsComponent },
                 { path: 'post/:id', component: PostComponent },
             ]
-        }, {
-            path: 'login',
-            component: LoginComponent
-        }, {
-            path: '**',
-            redirectTo: 'home',
-            pathMatch: 'full'
-        },
+        }
     ];
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [PostsComponent, MessageModalComponent, SortPostByDateNewestFirstPipe, AboutComponent,
-                HomeComponent, PostComponent, LoginComponent, CommentComponent],
+            declarations: [PostsComponent, MessageModalComponent, SortPostByDateNewestFirstPipe, 
+                PostComponent, CommentComponent],
             providers: [BlogService],
             imports: [RouterTestingModule.withRoutes(routes), FormsModule, HttpClientTestingModule]
         })
