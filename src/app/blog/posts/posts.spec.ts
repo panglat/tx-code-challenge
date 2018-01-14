@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, inject, tick, fakeAsync } from '@angular/core/testing';
 
 import { PostsComponent } from './posts';
 import { DebugElement } from '@angular/core';
@@ -13,39 +13,42 @@ import { PostComponent } from '../index';
 import { LoginComponent } from '../../login/login';
 import { CommentComponent } from '../comment/comment';
 import { FormsModule } from '@angular/forms';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { Post } from '../../models/index';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
 
 describe('PostsComponent', () => {
     let component: PostsComponent;
     let fixture: ComponentFixture<PostsComponent>;
     let el: DebugElement;
-    
+
     let routes = [
         {
-          path: 'about',
-          component: AboutComponent
+            path: 'about',
+            component: AboutComponent
         }, {
-          path: 'home',
-          component: HomeComponent
+            path: 'home',
+            component: HomeComponent
         }, {
-          path: 'blog',
-          children: [
-              { path: '', component: PostsComponent},
-              { path: 'post/:id', component: PostComponent },
-          ]
+            path: 'blog',
+            children: [
+                { path: '', component: PostsComponent },
+                { path: 'post/:id', component: PostComponent },
+            ]
         }, {
-          path: 'login',
-          component: LoginComponent
+            path: 'login',
+            component: LoginComponent
         }, {
-          path: '**',
-          redirectTo: 'home',
-          pathMatch: 'full'
+            path: '**',
+            redirectTo: 'home',
+            pathMatch: 'full'
         },
-      ];
+    ];
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [PostsComponent, MessageModalComponent, SortPostByDateNewestFirstPipe, AboutComponent, 
+            declarations: [PostsComponent, MessageModalComponent, SortPostByDateNewestFirstPipe, AboutComponent,
                 HomeComponent, PostComponent, LoginComponent, CommentComponent],
             providers: [BlogService],
             imports: [RouterTestingModule.withRoutes(routes), FormsModule, HttpClientTestingModule]
@@ -62,10 +65,20 @@ describe('PostsComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    it('Test loading message', inject([BlogService], (blogService: BlogService) => {
+    it('Test loading message', () => {
         component.ngOnInit();
         fixture.detectChanges();
         el = fixture.debugElement.query(By.css('p'));
         expect(el.nativeElement.textContent.trim()).toBe('Getting the posts list... Please wait');
-    }));
+    });
+
+    it('Test empty post list message', fakeAsync(inject([BlogService], (blogService: BlogService) => {
+        let spy = spyOn(blogService, 'getPosts').and.returnValue(Observable.of(new Array<Post>()));
+        component.ngOnInit();
+        tick();
+        fixture.detectChanges();
+        el = fixture.debugElement.query(By.css('p'));
+        expect(el.nativeElement.textContent.trim()).toBe('There is not posts');
+        expect(spy).toHaveBeenCalled();
+    })));
 });
