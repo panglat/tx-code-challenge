@@ -1,7 +1,7 @@
 /**
  * @overview Home page.  Renders static content.
  */
-import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import template from './posts.html';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
@@ -15,27 +15,28 @@ import { MessageModalComponent } from '../../modals';
   selector: 'posts',
   template,
 })
-export class PostsComponent implements OnInit, OnDestroy, AfterViewInit {
+export class PostsComponent implements OnInit, OnDestroy {
     @ViewChild(MessageModalComponent) messageModalComponent: MessageModalComponent;
     posts: Post[];
-    private getPostsSubscription: Subscription
+    private getPostsSubscription: Subscription;
+    isLoading = true;
 
     constructor(private router: Router, private blogService: BlogService) { }
   
     ngOnInit() {
+        this.isLoading = true;
+        this.getPostsSubscription = this.blogService.getPosts().subscribe((posts: Post[]) => {
+            this.posts = posts;
+            this.isLoading = false;
+        }, error => {
+            console.log(error);
+            this.isLoading = false;
+            this.messageModalComponent.show('Error', 'Error retrieving the posts list');
+        });
     }
 
     ngOnDestroy(): void {
         if(this.getPostsSubscription) { this.getPostsSubscription.unsubscribe(); }
-    }
-
-    ngAfterViewInit(): void {
-        this.getPostsSubscription = this.blogService.getPosts().subscribe((posts: Post[]) => {
-            this.posts = posts;
-        }, error => {
-            console.log(error);
-            this.messageModalComponent.show('Error', 'Error retrieving the posts list');
-        })
     }
 
     goToPost(postId: number) {

@@ -1,6 +1,9 @@
 <div>
     <h2>Blog</h2>
-    <table class="table">
+    <div *ngIf="isLoading">
+        <p>Getting the posts list... Please wait</p>
+    </div>
+    <table class="table" *ngIf="!isLoadin && posts && posts.length > 0">
         <thead>
             <tr>
                 <th>Title</th>
@@ -18,5 +21,8 @@
             </tr>
         </tbody>
     </table>
+    <div *ngIf="!isLoading && (!posts || posts.length === 0)">
+        <p>There is not posts</p>
+    </div>
 </div>
 <message-modal></message-modal>
