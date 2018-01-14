@@ -3,7 +3,7 @@
     <div *ngIf="isLoading">
         <p>Getting the posts list... Please wait</p>
     </div>
-    <table class="table" *ngIf="!isLoadin && posts && posts.length > 0">
+    <table class="table table-responsive" *ngIf="!isLoadin && posts && posts.length > 0">
         <thead>
             <tr>
                 <th>Title</th>
