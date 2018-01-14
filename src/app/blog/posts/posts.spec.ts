@@ -65,20 +65,51 @@ describe('PostsComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    it('Test loading message', () => {
+    it('should display the loading message', () => {
         component.ngOnInit();
         fixture.detectChanges();
         el = fixture.debugElement.query(By.css('p'));
         expect(el.nativeElement.textContent.trim()).toBe('Getting the posts list... Please wait');
     });
 
-    it('Test empty post list message', fakeAsync(inject([BlogService], (blogService: BlogService) => {
+    it('should display the empty post list message', fakeAsync(inject([BlogService], (blogService: BlogService) => {
         let spy = spyOn(blogService, 'getPosts').and.returnValue(Observable.of(new Array<Post>()));
         component.ngOnInit();
         tick();
         fixture.detectChanges();
         el = fixture.debugElement.query(By.css('p'));
         expect(el.nativeElement.textContent.trim()).toBe('There is not posts');
+        expect(spy).toHaveBeenCalled();
+    })));
+
+    it('should display two post', fakeAsync(inject([BlogService], (blogService: BlogService) => {
+        const posts = new Array<Post>();
+        let post: Post = <Post>{};
+        post.id = 1;
+        post.title = 'Blog post #1';
+        post.author = 'Melissa Manges';
+        post.publish_date = '2016-02-23';
+        post.description = 'Utroque denique invenire et has';
+        posts.push(post);
+
+        post = <Post>{};
+        post.id = 2;
+        post.title = 'Blog post #2';
+        post.author = 'Olene Ogan';
+        post.publish_date = '2016-03-16"';
+        post.description = 'Ex legere perpetua electram vim, per nisl inermis quaestio ea.';
+        posts.push(post);
+
+        let spy = spyOn(blogService, 'getPosts').and.returnValue(Observable.of(posts));
+        component.ngOnInit();
+        tick();
+        fixture.detectChanges();
+        const trs = fixture.debugElement.queryAll(By.css('table tbody tr'));
+        expect(trs.length).toBe(2);
+        let td = trs[0].query(By.css('td'));
+        expect(td.nativeElement.innerHTML).toContain('Blog post #2');
+        td = trs[1].query(By.css('td'));
+        expect(td.nativeElement.innerHTML).toContain('Blog post #1');
         expect(spy).toHaveBeenCalled();
     })));
 });

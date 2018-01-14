@@ -17,20 +17,18 @@ describe('BlogService', () => {
         let post: Post = <Post>{};
         post.id = 1;
         post.title = 'Blog post #1';
-        post.title = 'Blog post #1';
         post.author = 'Melissa Manges';
         post.publish_date = '2016-02-23';
         post.description = 'Utroque denique invenire et has';
-        expectedPosts.push(post)
+        expectedPosts.push(post);
 
         post = <Post>{};
         post.id = 2;
         post.title = 'Blog post #2';
-        post.title = 'Olene Ogan';
-        post.author = '2016-03-16"';
+        post.author = 'Olene Ogan';
         post.publish_date = '2016-03-16"';
         post.description = 'Ex legere perpetua electram vim, per nisl inermis quaestio ea.';
-        expectedPosts.push(post)
+        expectedPosts.push(post);
 
         service.getPosts().subscribe((posts) => {
             actualPosts = posts;
